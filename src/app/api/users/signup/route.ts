@@ -30,7 +30,6 @@ export async function POST(req: NextRequest) {
     const hashedPassword = await bcryptjs.hash(password, salt);
 
     const newUser = new User({ username, email, password: hashedPassword });
-
     const savedUser = await newUser.save();
 
     await sendEmail({ email, emailType: "VERIFY", userId: savedUser._id });
@@ -47,9 +46,6 @@ export async function POST(req: NextRequest) {
     if (error instanceof Error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
-    return NextResponse.json(
-      { error: "An unexpected error occurred" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: JSON.stringify(error) }, { status: 500 });
   }
 }

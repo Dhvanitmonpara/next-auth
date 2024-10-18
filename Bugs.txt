@@ -1,0 +1,2 @@
+1: Don't directly redirect user to verify him/her, bcz browsers loads the page and check for spaming. ref: NextAuth video 02
+2: URLencoding changes some special characters of the actual data while storing into db like changine dollar sign ($) into desks. so note this while storing encrypted password or tokens.

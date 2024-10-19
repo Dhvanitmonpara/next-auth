@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { toast } from "react-hot-toast";
+import axios, { AxiosError } from "axios";
+import { toast, Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -27,6 +27,8 @@ const SignupPage = () => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(error.message);
+      } else if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
       }
     } finally {
       setLoading(false);
@@ -100,6 +102,7 @@ const SignupPage = () => {
           Visit login page
         </Link>
       </form>
+      <Toaster position="top-center" reverseOrder={false} />
     </section>
   );
 };

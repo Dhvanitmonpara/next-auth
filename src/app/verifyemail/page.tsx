@@ -18,7 +18,7 @@ const SignupPage = () => {
       if (error instanceof Error) {
         setError(true);
       } else if (error instanceof AxiosError && error.response) {
-        console.log(error.response.data);
+        setError(error.response.data);
       }
     }
   };

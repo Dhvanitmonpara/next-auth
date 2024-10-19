@@ -8,8 +8,6 @@ export async function POST(req: NextRequest) {
   try {
     const { token } = await req.json();
 
-    console.log(token);
-
     if (!token) {
       return NextResponse.json({ error: "Token is missing" }, { status: 400 });
     }

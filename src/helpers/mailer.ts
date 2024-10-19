@@ -16,13 +16,17 @@ export const sendEmail = async ({
 
     if (emailType === "VERIFY") {
       await User.findByIdAndUpdate(userId, {
-        verifyToken: hashedToken,
-        verifyExpiry: Date.now() + 3600000,
+        $set: {
+          verifyToken: hashedToken,
+          verifyTokenExpiry: Date.now() + 3600000,
+        },
       });
     } else if (emailType === "RESET") {
       await User.findByIdAndUpdate(userId, {
-        forgotPasswordToken: hashedToken,
-        forgotPasswordExpiry: Date.now() + 3600000,
+        $set: {
+          forgotPasswordToken: hashedToken,
+          forgotPasswordExpiry: Date.now() + 3600000,
+        },
       });
     }
 
@@ -46,8 +50,7 @@ export const sendEmail = async ({
       }/verifyemail?token=${hashedToken}">here</a> to ${
         emailType === "VERIFY" ? "verify your email" : "reset your password"
       } or copy and paste your link below in your browser.<br>
-      ${process.env.DOMAIN}/verifyemail?token=${hashedToken}
-      {</p>`,
+      ${process.env.DOMAIN}/verifyemail?token=${hashedToken}</p>`,
     };
 
     const mailResponse = await transport.sendMail(mailOptions);
